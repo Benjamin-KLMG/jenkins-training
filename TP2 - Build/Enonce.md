@@ -16,6 +16,36 @@
 		cd alpinehelloworld
 		docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
 		```
+		```
+				pipeline {
+				    agent any
+				
+				    environment {
+				        Votre_ID_Github = 'Benjamin-KLMG'
+				        IMAGE_NAME = 'alpinehelloworld'
+				        IMAGE_TAG = 'latest'
+				    }
+				
+				    stages {
+				        stage('Construction Docker') {
+				            steps {
+				                // Nettoyer le dossier pour permettre les relances
+				                dir('alpinehelloworld') {
+				                    deleteDir()
+				                }
+				
+				                sh '''#!/bin/bash
+				set -e
+				
+				git clone "https://github.com/${Votre_ID_Github}/alpinehelloworld.git"
+				cd alpinehelloworld
+				docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .
+				'''
+				            }
+				        }
+				    }
+				}
+		```
 	- Appuyer sur **save**
 	- Appuyer sur **Build with parameters** , puis sur **Build**
 	
